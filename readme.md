@@ -1,4 +1,4 @@
-Python 3 Code
+Python 3.6 Code
 
 **COMMON**
 This tiny SDK for MSC rest handling is used
@@ -28,30 +28,31 @@ python add-epg-bd.py -d -sch CCST-P-T -tmp LAB11-LAB12 -anp GROUP-B_ANP -epg NEW
 
 **Example migration**
 
-With MSC a couple of new term have been introduced. 
+With MSC a couple of new terms have been introduced. 
 
 -site - A site is ACI Fabric which his managed by MSC
 
 -schema - a schema is an construct which has a 1:1 relation to a ACI Tenant. e.g. CCST_P_T is the schema in MSC which
           represent the CCST_P_T Tenant from LAB11 Fabric
           
--Template - A Template is a logical construct which allows us to control which object get programmed in particular sites              
+-Template - A Template is a logical construct which allows us to control which object get programmed in particular
+            sites.              
 
 
 **Function of Migration script**
 
-This this script manage the need to migrate EPG BD from one Template to another.
+This script manage the need to migrate EPG BD from one Template to another.
 e.g 
 Template LAB11 held site local object for site LAB11
-Template LAB12 held aite local object for site LAB12
+Template LAB12 held site local object for site LAB12
 Template LAB13 held site local object for site LAB13
 Template LAB11-LAB12-LAB13 held objects which are streched over all sits.
 
-Example1: We migrate in Schema CCST_P_T (-sch ) from source Template (-s_tmp) to target tempplate (-t_tmp LAB11-LAB12-LAB13)
+Example1: We migrate in Schema CCST_P_T (-sch ) from source Template (-s_tmp LAB11) to target tempplate (-t_tmp LAB11-LAB12-LAB13)
           the EPG (-epg) GROUP-B_V2011_EPG and (-bd) GROUP-B_V2011_BD.
-          This is a migration from a site local to a streched template. A steched template is a template which is assigned
-          to more then 1 site. It is important to manage to know is it a migration from site-local template to strech or other
-          way around or maybe between 2 site local template. When we migrate to stretched template the subnet needs to 
+          This is a migration from a site local to a streched template. A stretched template is a template which is assigned
+          to more then 1 site. It is important to manage the fact that is it a migration from site-local template to strech or other
+          way around. When we migrate to stretched template the subnet needs to 
           be deleted in site local object and added in template section of the configuration. L3Outs needs to configured
           on any site config section where the template is assigned to. Further more we change parameters in BD like
           L2strech, intersiteBumTraffic, intersiteBumTrafficAllow and optimizeWanBandwidth. 
@@ -91,12 +92,3 @@ INFO:migrate_epg_bd:b'{"msg":"Successfully deployed"}'
 INFO:migrate_epg_bd:Deploying Source Template LAB11-LAB12-LAB13
 INFO:migrate_epg_bd:b'{"msg":"Successfully deployed"}'
 
-
-**Personal Notes** 
-
-JSON to print pretty e.g. 
-print (json.dumps(schema_item['sites'], sort_keys=True, indent=2, separators=(',', ':')))
-
-
-GEt include 
-GET /api/v1/schemas/583c7c482501002501061985?include=**health,faults,status,associations,references,policy-states**
